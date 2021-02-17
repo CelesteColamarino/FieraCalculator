@@ -38,7 +38,11 @@ const Calculator = () => {
   };
 
   const addDecimal = (val) => {
-    input.indexOf(".") === -1 ? setInput(input + val) : setInput(input);
+    if (input === 0) {
+      setInput(0 + val);
+    } else {
+      input.indexOf(".") === -1 ? setInput(input + val) : setInput(input);
+    }
   };
 
   const resolve = () => {
