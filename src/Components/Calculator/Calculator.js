@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
 import ClearButton from "../ClearButton/ClearButton";
@@ -20,6 +20,9 @@ const Calculator = () => {
 
   const clear = () => {
     setInput(0);
+    setCurrentValue(0);
+    setPreviousValue(0);
+    setOperator(null);
   };
 
   const addToOperator = (val) => {
@@ -33,6 +36,44 @@ const Calculator = () => {
       setInput(val);
     }
   };
+
+  const addDecimal = (val) => {
+    input.indexOf(".") === -1 ? setInput(input + val) : setInput(input);
+  };
+
+  const resolve = () => {
+    previousValue ? setCurrentValue(input) : setPreviousValue(input);
+  };
+
+  useEffect(() => {
+    const evaluate = {
+      "+": function (x, y) {
+        return x + y;
+      },
+      "-": function (x, y) {
+        return x - y;
+      },
+      "*": function (x, y) {
+        return x * y;
+      },
+      "/": function (x, y) {
+        return x + y;
+      },
+    };
+
+    if (operator && currentValue) {
+      let solution = evaluate[operator](
+        parseFloat(previousValue),
+        parseFloat(currentValue)
+      );
+
+      setInput(solution);
+      setOperator(null);
+      setPreviousValue(solution);
+      setCurrentValue(null);
+    }
+  }, [previousValue, operator, currentValue]);
+
   return (
     <div className="wrapper">
       <div className="row">
@@ -57,9 +98,9 @@ const Calculator = () => {
         <Button handleClick={addToOperator}>+</Button>
       </div>
       <div className="row">
-        <Button handleClick={addToInput}>.</Button>
+        <Button handleClick={addDecimal}>.</Button>
         <Button handleClick={addToInput}>0</Button>
-        <Button handleClick={addToInput}>=</Button>
+        <Button handleClick={resolve}>=</Button>
         <Button handleClick={addToOperator}>-</Button>
       </div>
       <div className="row">
