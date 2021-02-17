@@ -1,2 +1,0 @@
-# FieraCalculator
-Calculator challenge
