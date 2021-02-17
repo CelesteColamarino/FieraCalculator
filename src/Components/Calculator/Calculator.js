@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
+import ClearButton from "../ClearButton/ClearButton";
 import "./calculator.css";
 
 const Calculator = () => {
@@ -9,6 +10,10 @@ const Calculator = () => {
   const addToInput = (val) => {
     const result = input ? input + val : val;
     setInput(result);
+  };
+
+  const clear = () => {
+    setInput(0);
   };
 
   return (
@@ -39,6 +44,9 @@ const Calculator = () => {
         <Button handleClick={addToInput}>0</Button>
         <Button handleClick={addToInput}>=</Button>
         <Button handleClick={addToInput}>-</Button>
+      </div>
+      <div className="row">
+        <ClearButton handleClick={clear}>Clear</ClearButton>
       </div>
     </div>
   );
